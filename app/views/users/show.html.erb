@@ -1,0 +1,141 @@
+<div class="profile-wrap">
+  <div class="row">
+    <div class="col-md-4 text-center">
+      <%= image_tag avatar_url(@user), class: "round-img" %>
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <h2><%= @user.name %></h2>
+        <% if @user == current_user %>
+          <%= link_to "プロフィールを編集", edit_user_registration_path, class: "btn btn-outline-dark edit-profile-btn" %>
+          <button type="button" class="setting" data-toggle="modal" data-target="#exampleModal"></button>
+        <% else %>
+          <span><%= render 'follow_form' %></span>
+        <% end %>
+        
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">設定</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="list-group text-center">
+                <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "list-group-item list-group-item-action" %>
+                <%= link_to "キャンセル", "#", class: "list-group-item list-group-item-action", "data-dismiss": "modal" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% if @user == current_user %>
+        <div class="user-row">
+          <!--<p>-->
+          <!--  <%= @user.email %>-->
+          <!--</p>-->
+          <ul>
+            <li>投稿<%= @user.posts.count %>件</li>
+            <li><%= link_to "フォロワー#{@user.followers.count}人", followers_path(@user) %></li>
+            <li><%= link_to "#{@user.following.count}人をフォロー中", following_path(@user) %></li>
+          </ul>
+        </div>
+        <div class="row">
+          <% @user.posts.each do |post| %>
+            <div class="col-md-4 photo" data-toggle="modal" data-target="#myModal-<%= post.id %>">
+              <!--<%= link_to(post_path(post)) do %>-->
+              <%= image_tag post.photos.first.image.url(:medium), class: "card-img-top" %>
+              <!--<% end %>-->
+            </div>
+          <% end %>
+        </div>
+        
+        <% @user.posts.each do |post| %>
+          <div class="modal" id="myModal-<%= post.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+              <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+                <div class="modal-body">
+                  
+                  <div class="col-md-10 col-md-offset-1 mx-auto postShow-wrap">
+                    <div class="row post-wrap">
+                      <div class="col-md-8">
+                        <div class="card-left">
+                          <%= image_tag post.photos.first.image.url(:medium), class: "card-img-top" %>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="card-right">
+                          <div class="card-right-comment">
+                            <div class="card-right-name">
+                              <%= link_to user_path(post.user), class: "no-text-decoration" do %>
+                                <%= image_tag avatar_url(post.user), class: "post-profile-icon" %>
+                              <% end %>
+                              <%= link_to user_path(post.user), class: "black-color no-text-decoration post-user-name",
+                                title: post.user.name do %>
+                                <strong><%= post.user.name %></strong>
+                              <% end %>
+                              
+                              <% if post.user_id == current_user.id %>
+                                <%= link_to post_path(post), method: :delete, class: "ml-auto mx-0 my-auto" do %>
+                                  <div class="delete-post-icon"></div>
+                                <% end %>
+                              <% end %>
+                              
+                            </div>
+                            <div class="m-2">
+                              <strong>
+                                <%= post.caption %>
+                              </strong>
+                            </div>
+                            <div class="comment-post-id">
+                              <div class="m-2">
+                                <div id="comment-post-<%= post.id.to_s %>">
+                                  <%= render 'posts/comment_list', post: post %>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row parts">
+                            <div id="like-icon-post-<%= post.id.to_s %>">
+                              <% if post.liked_by(current_user).present? %>
+                                <%= link_to "いいねを取り消す", post_like_path(post.id, post.liked_by(current_user)), method: :DELETE, remote: true, class: "loved hide-text" %>
+                              <% else %>
+                                <%= link_to "いいね", post_likes_path(post), method: :POST, remote: true, class: "love hide-text" %>
+                              <% end %>
+                            </div>
+                            
+                          </div>
+                          
+                          <div id="like-text-post-<%= post.id.to_s %>">
+                            <%= render "posts/like_text", { likes: post.likes } %>
+                          </div>
+                          
+                          <div class="post-time"><%= time_ago_in_words(post.created_at).upcase %>前</div>
+                          <hr>
+                          
+                          <div class="row parts" id="comment-form-post-<%= post.id.to_s %>">
+                            <%= form_with model: [post, Comment.new], class: "w-100" do |f| %>
+                              <%= f.hidden_field :user_id, value: current_user.id %>
+                              <%= f.hidden_field :post_id, value: post.id %>
+                              <%= f.text_field :comment, class: "form-control comment-input border-0", placeholder: "コメント ...", autocomplete: :off %>
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        
+        
+        
+      <% end %>
+    </div>
+  </div>
+</div>
