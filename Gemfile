@@ -66,4 +66,6 @@ gem 'omniauth-facebook'
 gem 'carrierwave', '~> 1.0'
 gem "mini_magick"
 
+gem 'font-awesome-sass', '~> 5.11.2'
+
 gem 'pg', group: :production

@@ -18,15 +18,11 @@
   font-size: 14px;
 }
 
-.setting {
-  background-image: image-url("parts4.png");
-  background-repeat: no-repeat;
-  height: 24px;
-  width: 24px;
-  background-color: transparent;
-  margin: 18px 0 0 10px;
-  background-size: 22px!important;
-  border: none;
+.fa-cog {
+  font-size: 1.6rem;
+  line-height: 26px;
+  margin: 10px;
+  color: #262626;
   &:hover {
     cursor: pointer;
   }
@@ -37,11 +33,16 @@
   width: 200px;
   height: 200px;
   padding-right: 30px;
+  font-size: 20px;
+}
+
+.user-row {
+  display: flex;
+  border-bottom: 2px solid #dee7ec;
+  width: 100%;
 }
 
 .col-md-8 .user-row {
-  border-bottom: 2px solid #dee7ec;
-  margin: 20px;
   line-height: 50px;
 }
 
