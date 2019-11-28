@@ -30,13 +30,61 @@
         </div>
         <ul>
           <li>投稿<%= @user.posts.count %>件</li>
-          <li><%= link_to "フォロワー#{@user.followers.count}人", followers_path(@user) %></li>
-          <li><%= link_to "#{@user.following.count}人をフォロー中", following_path(@user) %></li>
+          <li data-toggle="modal" data-target="#followersModal" class="modal-link"><%= "フォロワー#{@user.followers.count}人" %></li>
+          <li data-toggle="modal" data-target="#followingModal" class="modal-link"><%= "#{@user.following.count}人をフォロー中" %></li>
         </ul>
+        <div class="modal fade" id="followersModal" tabindex="-1" role="dialog" aria-labelledby="followersModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content modal-dialog-follow">
+              <div class="modal-header">
+                <h5 class="modal-title" id="followersModalLabel">フォロワー</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <% if @followers.any? %>
+                <div class="users-follow">
+                  <% @followers.each do |user| %>
+                    <div class="users-follow__li">
+                      <%= image_tag avatar_url(user), class: "post-profile-icon" %>
+                      <%= link_to user.name, user_path(user) %>
+                    </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="users-nofollow">フォロワーが表示されます</div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="followingModal" tabindex="-1" role="dialog" aria-labelledby="followingModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content modal-dialog-follow">
+              <div class="modal-header">
+                <h5 class="modal-title" id="followingModalLabel">フォロー中</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <% if @following.any? %>
+                <div class="users-follow">
+                  <% @following.each do |user| %>
+                    <div class="users-follow__li">
+                      <%= image_tag avatar_url(user), class: "post-profile-icon" %>
+                      <%= link_to user.name, user_path(user) %>
+                    </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="users-nofollow">フォローしているユーザーが表示されます</div>
+              <% end %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <% if @user == current_user %>
-      <% @user.posts.each do |post| %>
+      <% @posts.each do |post| %>
         <div class="col-md-4 photo">
           <div class="card-deck">
             <div class="card-wrap">
@@ -49,7 +97,7 @@
           </div>
         </div>
       <% end %>
-      <% @user.posts.each do |post| %>
+      <% @posts.each do |post| %>
         <div class="modal fade" id="myModal-<%= post.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
@@ -76,7 +124,7 @@
                             <% end %>
                             <% if post.user_id == current_user.id %>
                               <%= link_to post_path(post), method: :delete, class: "ml-auto mx-0 my-auto" do %>
-                                <div class="delete-post-icon"></div>
+                                <div class="fas fa-trash"></div>
                               <% end %>
                             <% end %>
                           </div>
@@ -84,6 +132,7 @@
                             <strong>
                               <%= post.caption %>
                             </strong>
+                            <div class="post-time"><%= time_ago_in_words(post.created_at).upcase %>前</div>
                           </div>
                           <div class="comment-post-id">
                             <div class="m-2">
@@ -105,7 +154,7 @@
                         <div id="like-text-post-<%= post.id.to_s %>">
                           <%= render "posts/like_text", { likes: post.likes } %>
                         </div>
-                        <div class="post-time"><%= time_ago_in_words(post.created_at).upcase %>前</div>
+                        <%# <div class="post-time"><%= time_ago_in_words(post.created_at).upcase前</div> %>
                         <hr>
                         <div class="row parts" id="comment-form-post-<%= post.id.to_s %>">
                           <%= form_with model: [post, Comment.new], class: "w-100" do |f| %>
@@ -118,7 +167,6 @@
                     </div>
                   </div>
                 </div>
-                
               </div>
             </div>
           </div>

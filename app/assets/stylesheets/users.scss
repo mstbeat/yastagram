@@ -1,3 +1,32 @@
 .col-md-4 {
   margin-bottom: 15px;
 }
+
+.users-title{
+  margin: 20px;
+}
+
+.users-follow {
+  list-style: none;
+  margin: 15px 20px 5px 20px;
+  display: list-item;
+  float: left;
+  &__li {
+    margin-bottom: 10px;
+  }
+}
+
+.users-nofollow {
+  margin: 20px;
+  font-size: 16px;
+}
+
+.modal-dialog-follow {
+  margin-top: 50%;
+}
+
+.modal-link {
+  &:hover {
+    cursor: pointer;
+  }
+}

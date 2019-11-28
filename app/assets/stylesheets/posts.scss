@@ -1,3 +1,7 @@
+.main-body {
+  padding-top: 77px;
+}
+
 .post-profile-icon {
   height: 40px;
   width: 40px;
@@ -53,10 +57,15 @@
   display: flex;
 }
 
+// .card-right-caption {
+//   padding: 0 10px 5px 10px;
+//   border-bottom: 1px solid #e6e6e6;
+// }
+
 .card-right-comment {
   padding-bottom: 10px;
   border-bottom: 1px solid #e6e6e6;
-  height: 320px;
+  height: 450px;
   overflow: auto;
 }
 
@@ -108,4 +117,8 @@ button .close {
 .far:before{
   display: inline-block;
   text-decoration: none;
+}
+
+.fa-trash {
+  color: #262626;
 }
