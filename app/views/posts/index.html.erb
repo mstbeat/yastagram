@@ -38,7 +38,7 @@
                         <% end %>
                         <% if post.user_id == current_user.id %>
                           <%= link_to post_path(post), method: :delete, class: "ml-auto mx-0 my-auto" do %>
-                            <div class="delete-post-icon"></div>
+                            <div class="fas fa-trash"></div>
                           <% end %>
                         <% end %>
                       </div>
@@ -46,6 +46,7 @@
                         <strong>
                           <%= post.caption %>
                         </strong>
+                        <div class="post-time"><%= time_ago_in_words(post.created_at).upcase %>前</div>
                       </div>
                       <div class="comment-post-id">
                         <div class="m-2">
@@ -67,7 +68,7 @@
                     <div id="like-text-post-<%= post.id.to_s %>">
                       <%= render "posts/like_text", { likes: post.likes } %>
                     </div>
-                    <div class="post-time"><%= time_ago_in_words(post.created_at).upcase %>前</div>
+                    <%# <div class="post-time"><%= time_ago_in_words(post.created_at).upcase前</div> %>
                     <hr>
                     <div class="row parts" id="comment-form-post-<%= post.id.to_s %>">
                       <%= form_with model: [post, Comment.new], class: "w-100" do |f| %>
