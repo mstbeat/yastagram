@@ -36,7 +36,7 @@
       </p>
 
       <p class="devise-link">
-        <%= link_to user_facebook_omniauth_authorize_path, class: "btn btn-primary" do %>
+        <%= link_to user_facebook_omniauth_authorize_path, method: :post, class: "btn btn-primary" do %>
           <i class="fa fa-facebook"> Facebookでログイン</i>
         <% end %>
       </p>
