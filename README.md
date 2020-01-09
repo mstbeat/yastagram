@@ -9,7 +9,7 @@ Instagram clone website
 - You can follor/unfollow other users.
 
 ***Demo:***
-[![Demo](https://i.gyazo.com/c1f7fcdacc6599524dc5ce9dd88addb5.gif)](https://gyazo.com/c1f7fcdacc6599524dc5ce9dd88addb5)
+[![Demo](https://i.gyazo.com/b36b98f552158385985971637124b08e.gif)](https://gyazo.com/b36b98f552158385985971637124b08e)
 
 ## Requirement
 - Ruby
