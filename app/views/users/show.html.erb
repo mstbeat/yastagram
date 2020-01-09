@@ -83,85 +83,83 @@
         </div>
       </div>
     </div>
-    <% if @user == current_user %>
-      <% @posts.each do |post| %>
-        <div class="col-md-4 photo">
-          <div class="card-deck">
-            <div class="card-wrap">
-              <div class="card">
-                <div data-toggle="modal" data-target="#myModal-<%= post.id %>">
-                  <%= image_tag post.photos.first.image.url(:medium), class: "card-img-top" %>
-                </div>
+    <% @posts.each do |post| %>
+      <div class="col-md-4 photo">
+        <div class="card-deck">
+          <div class="card-wrap">
+            <div class="card">
+              <div data-toggle="modal" data-target="#myModal-<%= post.id %>">
+                <%= image_tag post.photos.first.image.url(:medium), class: "card-img-top" %>
               </div>
             </div>
           </div>
         </div>
-      <% end %>
-      <% @posts.each do |post| %>
-        <div class="modal fade" id="myModal-<%= post.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
-              <div class="modal-body">
-                <div class="col-md-10 col-md-offset-1 mx-auto postShow-wrap">
-                  <div class="row post-wrap">
-                    <div class="col-md-8">
-                      <div class="card-left">
-                        <%= image_tag post.photos.first.image.url(:medium), class: "card-img-top" %>
-                      </div>
+      </div>
+    <% end %>
+    <% @posts.each do |post| %>
+      <div class="modal fade" id="myModal-<%= post.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+          <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+            <div class="modal-body">
+              <div class="col-md-10 col-md-offset-1 mx-auto postShow-wrap">
+                <div class="row post-wrap">
+                  <div class="col-md-8">
+                    <div class="card-left">
+                      <%= image_tag post.photos.first.image.url(:medium), class: "card-img-top" %>
                     </div>
-                    <div class="col-md-4">
-                      <div class="card-right">
-                        <div class="card-right-comment">
-                          <div class="card-right-name">
-                            <%= link_to user_path(post.user), class: "no-text-decoration" do %>
-                              <%= image_tag avatar_url(post.user), class: "post-profile-icon" %>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card-right">
+                      <div class="card-right-comment">
+                        <div class="card-right-name">
+                          <%= link_to user_path(post.user), class: "no-text-decoration" do %>
+                            <%= image_tag avatar_url(post.user), class: "post-profile-icon" %>
+                          <% end %>
+                          <%= link_to user_path(post.user), class: "black-color no-text-decoration post-user-name",
+                            title: post.user.name do %>
+                            <strong><%= post.user.name %></strong>
+                          <% end %>
+                          <% if post.user_id == current_user.id %>
+                            <%= link_to post_path(post), method: :delete, class: "ml-auto mx-0 my-auto" do %>
+                              <div class="fas fa-trash"></div>
                             <% end %>
-                            <%= link_to user_path(post.user), class: "black-color no-text-decoration post-user-name",
-                              title: post.user.name do %>
-                              <strong><%= post.user.name %></strong>
-                            <% end %>
-                            <% if post.user_id == current_user.id %>
-                              <%= link_to post_path(post), method: :delete, class: "ml-auto mx-0 my-auto" do %>
-                                <div class="fas fa-trash"></div>
-                              <% end %>
-                            <% end %>
-                          </div>
+                          <% end %>
+                        </div>
+                        <div class="m-2">
+                          <strong>
+                            <%= post.caption %>
+                          </strong>
+                          <div class="post-time"><%= time_ago_in_words(post.created_at).upcase %>前</div>
+                        </div>
+                        <div class="comment-post-id">
                           <div class="m-2">
-                            <strong>
-                              <%= post.caption %>
-                            </strong>
-                            <div class="post-time"><%= time_ago_in_words(post.created_at).upcase %>前</div>
-                          </div>
-                          <div class="comment-post-id">
-                            <div class="m-2">
-                              <div id="comment-post-<%= post.id.to_s %>">
-                                <%= render 'posts/comment_list', post: post %>
-                              </div>
+                            <div id="comment-post-<%= post.id.to_s %>">
+                              <%= render 'posts/comment_list', post: post %>
                             </div>
                           </div>
                         </div>
-                        <div class="row parts">
-                          <div id="like-icon-post-<%= post.id.to_s %>">
-                            <% if post.liked_by(current_user).present? %>
-                              <%= link_to "", post_like_path(post.id, post.liked_by(current_user)), method: :DELETE, remote: true, class: "fas fa-heart" %>
-                            <% else %>
-                              <%= link_to "", post_likes_path(post), method: :POST, remote: true, class: "far fa-heart" %>
-                            <% end %>
-                          </div>
-                        </div>
-                        <div id="like-text-post-<%= post.id.to_s %>">
-                          <%= render "posts/like_text", { likes: post.likes } %>
-                        </div>
-                        <%# <div class="post-time"><%= time_ago_in_words(post.created_at).upcase前</div> %>
-                        <hr>
-                        <div class="row parts" id="comment-form-post-<%= post.id.to_s %>">
-                          <%= form_with model: [post, Comment.new], class: "w-100" do |f| %>
-                            <%= f.hidden_field :user_id, value: current_user.id %>
-                            <%= f.hidden_field :post_id, value: post.id %>
-                            <%= f.text_field :comment, class: "form-control comment-input border-0", placeholder: "コメント ...", autocomplete: :off %>
+                      </div>
+                      <div class="row parts">
+                        <div id="like-icon-post-<%= post.id.to_s %>">
+                          <% if post.liked_by(current_user).present? %>
+                            <%= link_to "", post_like_path(post.id, post.liked_by(current_user)), method: :DELETE, remote: true, class: "fas fa-heart" %>
+                          <% else %>
+                            <%= link_to "", post_likes_path(post), method: :POST, remote: true, class: "far fa-heart" %>
                           <% end %>
                         </div>
+                      </div>
+                      <div id="like-text-post-<%= post.id.to_s %>">
+                        <%= render "posts/like_text", { likes: post.likes } %>
+                      </div>
+                      <%# <div class="post-time"><%= time_ago_in_words(post.created_at).upcase前</div> %>
+                      <hr>
+                      <div class="row parts" id="comment-form-post-<%= post.id.to_s %>">
+                        <%= form_with model: [post, Comment.new], class: "w-100" do |f| %>
+                          <%= f.hidden_field :user_id, value: current_user.id %>
+                          <%= f.hidden_field :post_id, value: post.id %>
+                          <%= f.text_field :comment, class: "form-control comment-input border-0", placeholder: "コメント ...", autocomplete: :off %>
+                        <% end %>
                       </div>
                     </div>
                   </div>
@@ -170,7 +168,7 @@
             </div>
           </div>
         </div>
-      <% end %>
+      </div>
     <% end %>
   </div>
 </div>
