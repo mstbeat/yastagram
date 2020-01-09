@@ -24,7 +24,7 @@ class PostsController < ApplicationController
                     WHERE follower_id = :user_id"
     @posts = Post.where("user_id IN (#{following_ids})
                     OR user_id = :user_id", user_id: current_user.id)
-    @posts = Post.limit(10).includes(:photos, :user).order('created_at DESC')
+    @posts = Post.limit(30).includes(:photos, :user).order('created_at DESC')
   end
   
   def show
