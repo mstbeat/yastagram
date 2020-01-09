@@ -1,12 +1,21 @@
-● 自分が苦労した点
-ProgateとRailsチュートリアルを2周ほど勉強しましたが、Instagramを自分で一から作れるような技術は身に付きませんでした。
-「プロを目指す人のためのRuby入門」と「Ruby on Rails 5 速習実践ガイド」も学習しましたが、結果は同じでした。
-ネット上で受講できるオンラインコースを他にもいくつか受けて、課題に少しでも取りかかれるように試行錯誤しました。
-自分で一から作り上げたというよりは、オンラインコースなどで作成した物を修正したというイメージです。
-自分で何かを作り上げるという技術を身に付けることは大変難しく、自分一人で学習する限界を感じてしまいました。
+# YASTAGRAM
 
-● 学んだ点
-分からない時はネットで検索して解決方法を見つけることが重要であることは学びました。
+## Overview
+Instagram clone website
 
-● 自慢したい・相談したい点
-苦労した点で記述した通り、何かを作り上げるための技術はどのように習得できるのか教えて頂きたかったです。
+## Description
+- You can upload images and text.
+- You can like/unlike images other users posted.
+- You can follor/unfollow other users.
+
+***Demo:***
+[![Demo](https://i.gyazo.com/1462358a509c259d308d560529181476.gif)](https://gyazo.com/1462358a509c259d308d560529181476)
+
+## Requirement
+- Ruby
+- Ruby on Rails
+- Sass
+- jQuery
+
+## Author
+[mstbeat](https://github.com/mstbeat)
