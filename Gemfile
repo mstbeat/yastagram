@@ -69,3 +69,5 @@ gem 'font-awesome-sass', '~> 5.11.2'
 gem 'pg', group: :production
 
 gem "omniauth-rails_csrf_protection"
+
+gem 'fog-aws'
