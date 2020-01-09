@@ -1,3 +1,4 @@
 $('#comment-post-<%= @post.id.to_s %>').
   html('<%= j render "posts/comment_list", { post: @post } %>');
-$('#comment-form-post-<%= @post.id.to_s %> #comment_comment').val("");
+$('input[type="text"]').val('');
+$('.card-right-comment').animate({ scrollTop: $('.card-right-comment')[0].scrollHeight});
