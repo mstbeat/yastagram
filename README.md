@@ -7,6 +7,8 @@ https://yastagram.herokuapp.com
 Instagram clone website  
 インスタグラムのクローンサイト
 
+テストアカウント（メールアドレス: test@test.com, パスワード: password）
+
 ## Description（説明）
 - You can upload images and text.
 - You can like/unlike images other users posted.
